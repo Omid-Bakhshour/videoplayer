@@ -1,7 +1,11 @@
 import React from 'react'
 import PlayPause from './PlayPause'
 
-function Controls() {
+type Props = {
+    videoRef: React.RefObject<HTMLVideoElement>;
+}
+
+function Controls({videoRef}: Props) {
     return (
         <div className='absolute z-[1] bottom-0 left-0 right-0 w-full flex flex-col gap-2 p-4' >
             {/* timeSlider */}
@@ -11,8 +15,7 @@ function Controls() {
                 {/* play && volume && duration */}
                 <div className='flex felx-row gap-2 md:gap-4' >
                     {/* play pause */}
-                    <PlayPause/>
-
+                    <PlayPause videoRef={videoRef} />
                     {/* volume */}
                     {/* duration */}
                 </div>
