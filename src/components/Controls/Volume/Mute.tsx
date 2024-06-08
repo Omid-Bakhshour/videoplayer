@@ -6,7 +6,6 @@ import VolumeIcon from '@/icons/volume_fill.svg';
 const Mute: React.FC<VideoRefType> = ({ videoRef }) => {
   const [isMuted, setIsMuted] = useState<boolean>(false);
 
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedMutedState = localStorage.getItem('isMuted');
@@ -16,20 +15,23 @@ const Mute: React.FC<VideoRefType> = ({ videoRef }) => {
 
   useEffect(() => {
     const videoElement = videoRef.current;
-
     if (videoElement) {
       videoElement.muted = isMuted;
 
-      // const handleVolumeChange = () => {
-      //   setIsMuted(videoElement.muted);
-      //   localStorage.setItem('isMuted', JSON.stringify(videoElement.muted));
-      // };
+      const handleVolumeChange = () => {
+        if (videoElement.volume === 0) {
+          setIsMuted(true);
+        } else {
+          setIsMuted(false);
+        }
+        localStorage.setItem('isMuted', JSON.stringify(videoElement.muted));
+      };
 
-      // videoElement.addEventListener('volumechange', handleVolumeChange);
+      videoElement.addEventListener('volumechange', handleVolumeChange);
 
-      // return () => {
-      //   videoElement.removeEventListener('volumechange', handleVolumeChange);
-      // };
+      return () => {
+        videoElement.removeEventListener('volumechange', handleVolumeChange);
+      };
     }
   }, [videoRef, isMuted]);
 
