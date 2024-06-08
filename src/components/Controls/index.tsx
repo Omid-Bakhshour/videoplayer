@@ -1,5 +1,6 @@
 import React from 'react'
 import PlayPause from './PlayPause'
+import Volume from './Volume';
 
 type Props = {
     videoRef: React.RefObject<HTMLVideoElement>;
@@ -17,6 +18,7 @@ function Controls({videoRef}: Props) {
                     {/* play pause */}
                     <PlayPause videoRef={videoRef} />
                     {/* volume */}
+                    <Volume videoRef={videoRef} />
                     {/* duration */}
                 </div>
 
