@@ -1,7 +1,7 @@
 import React from 'react'
 import Mute from './Mute';
 import { VideoRefType } from '@/models/player';
-import VolumeSlider from './VolumeSLider';
+import VolumeSlider from './VolumeSlider';
 
 function Volume({videoRef}: VideoRefType) {
   return (
