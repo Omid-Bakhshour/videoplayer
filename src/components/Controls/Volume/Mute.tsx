@@ -4,9 +4,15 @@ import MuteIcon from '@/icons/volume_mute_fill.svg';
 import VolumeIcon from '@/icons/volume_fill.svg';
 
 const Mute: React.FC<VideoRefType> = ({ videoRef }) => {
-  const [isMuted, setIsMuted] = useState<boolean>(() => {
-    return JSON.parse(localStorage.getItem('isMuted') || 'false');
-  });
+  const [isMuted, setIsMuted] = useState<boolean>(false);
+
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedMutedState = localStorage.getItem('isMuted');
+      setIsMuted(savedMutedState ? JSON.parse(savedMutedState) : false);
+    }
+  }, []);
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -14,16 +20,16 @@ const Mute: React.FC<VideoRefType> = ({ videoRef }) => {
     if (videoElement) {
       videoElement.muted = isMuted;
 
-      const handleVolumeChange = () => {
-        setIsMuted(videoElement.muted);
-        localStorage.setItem('isMuted', JSON.stringify(videoElement.muted));
-      };
+      // const handleVolumeChange = () => {
+      //   setIsMuted(videoElement.muted);
+      //   localStorage.setItem('isMuted', JSON.stringify(videoElement.muted));
+      // };
 
-      videoElement.addEventListener('volumechange', handleVolumeChange);
+      // videoElement.addEventListener('volumechange', handleVolumeChange);
 
-      return () => {
-        videoElement.removeEventListener('volumechange', handleVolumeChange);
-      };
+      // return () => {
+      //   videoElement.removeEventListener('volumechange', handleVolumeChange);
+      // };
     }
   }, [videoRef, isMuted]);
 
@@ -33,7 +39,7 @@ const Mute: React.FC<VideoRefType> = ({ videoRef }) => {
       const newMutedState = !videoElement.muted;
       videoElement.muted = newMutedState;
       setIsMuted(newMutedState);
-      localStorage.setItem('isMuted', JSON.stringify(newMutedState));
+      localStorage?.setItem('isMuted', JSON.stringify(newMutedState));
     }
   };
 
