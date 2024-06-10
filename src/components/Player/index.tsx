@@ -5,6 +5,11 @@ import Hls from 'hls.js';
 import Controls from '../Controls';
 
 const VIDEO_HLS_SRC = "https://files.vidstack.io/sprite-fight/hls/stream.m3u8";
+const VIDEO_MP4_SRC = "https://files.vidstack.io/sprite-fight/720p.mp4"
+
+const isHlsSource = (src: string) => {
+    return src.endsWith(".m3u8");
+};
 
 function Player() {
     const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -13,15 +18,15 @@ function Player() {
         let hls: Hls | null = null;
 
         if (videoRef.current) {
-            if (Hls.isSupported()) {
+            if (Hls.isSupported() && isHlsSource(VIDEO_HLS_SRC)) {
                 hls = new Hls();
                 hls.loadSource(VIDEO_HLS_SRC);
                 hls.attachMedia(videoRef.current);
                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
                     videoRef.current?.play();
                 });
-            } else if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
-                videoRef.current.src = VIDEO_HLS_SRC;
+            } else {
+                videoRef.current.src = VIDEO_MP4_SRC;
                 const handleLoadedMetadata = () => {
                     videoRef.current?.play();
                 };
