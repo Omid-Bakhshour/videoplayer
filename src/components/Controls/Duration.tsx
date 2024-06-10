@@ -16,6 +16,7 @@ const formatTime = (seconds: number) => {
 
 function Duration({ videoRef }: Props) {
     const [currentTime, setCurrentTime] = useState<number>(0);
+    const [duration, setDuration] = useState<number>(0);
 
     useEffect(() => {
         const videoElement = videoRef.current;
@@ -25,10 +26,16 @@ function Duration({ videoRef }: Props) {
             setCurrentTime(videoElement.currentTime);
           };
 
+          const handleLoadedMetadata = () => {
+            setDuration(videoElement.duration);
+          };
+
+          videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
           videoElement.addEventListener('timeupdate', handleTimeUpdate);
-    
+
           return () => {
-            videoElement.removeEventListener('timeupdate', handleTimeUpdate);
+              videoElement.removeEventListener('timeupdate', handleTimeUpdate);
+              videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
           };
         }
       }, [videoRef]);
@@ -38,7 +45,7 @@ function Duration({ videoRef }: Props) {
             {/* currenttime */}
             <span className='' >{formatTime(currentTime)}</span>
             <span className='shrink-0' >/</span>
-            <span className='' >{formatTime(videoRef.current?.duration || 0)}</span>
+            <span className='' >{formatTime(duration)}</span>
         </span>
     )
 }
