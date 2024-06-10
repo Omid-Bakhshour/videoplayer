@@ -16,6 +16,8 @@ const TimeSlider: React.FC<PropsType> = ({
 }) => {
     const sliderRef = useRef<HTMLDivElement | null>(null);
     const isDragging = useRef<boolean>(false);
+    const [bufferedTime, setBufferedTime] = useState<number>(0);
+
 
     const updateCurrentTime = (clientX: number) => {
         if (sliderRef.current && videoRef.current) {
@@ -25,6 +27,16 @@ const TimeSlider: React.FC<PropsType> = ({
             const newTime = Math.min(Math.max((clickPosition / sliderWidth) * duration, 0), duration);
             setCurrentTime(newTime);
             videoRef.current.currentTime = newTime;
+        }
+    };
+
+    const updateBufferedTime = () => {
+        const videoElement = videoRef.current;
+        if (videoElement) {
+            const buffered = videoElement.buffered;
+            if (buffered.length > 0) {
+                setBufferedTime(buffered.end(buffered.length - 1));
+            }
         }
     };
 
@@ -71,6 +83,8 @@ const TimeSlider: React.FC<PropsType> = ({
         document.addEventListener('mouseup', handleMouseUp);
         document.addEventListener('touchmove', handleTouchMove, { passive: false });
         document.addEventListener('touchend', handleTouchEnd);
+        updateBufferedTime();
+        videoRef?.current?.addEventListener('progress', updateBufferedTime);
 
 
         return () => {
@@ -78,6 +92,8 @@ const TimeSlider: React.FC<PropsType> = ({
             document.removeEventListener('mouseup', handleMouseUp);
             document.removeEventListener('touchmove', handleTouchMove);
             document.removeEventListener('touchend', handleTouchEnd);
+            videoRef?.current?.removeEventListener('progress', updateBufferedTime);
+
         };
     }, [currentTime]);
 
@@ -92,9 +108,14 @@ const TimeSlider: React.FC<PropsType> = ({
 
             >
                 <div className='w-full h-full block rounded-full bg-slate-600' />
+                {/* Buffered progress */}
+                <div
+                    className='h-full rounded-full absolute z-[1] left-0 top-0 bottom-0 bg-gray-400'
+                    style={{ width: `${(bufferedTime / duration) * 100}%` }}
+                />
                 {/* Progress */}
                 <div
-                    className='h-full rounded-full absolute z-[1] left-0 top-0 bottom-0 bg-white'
+                    className='h-full rounded-full absolute z-[2] left-0 top-0 bottom-0 bg-white'
                     style={{ width: `${(currentTime / duration) * 100}%` }}
                 >
                     {/* Circle */}

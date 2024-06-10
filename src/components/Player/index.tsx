@@ -42,7 +42,7 @@ function Player() {
 
     return (
         <div className='w-[1500px] relative h-auto block' >
-            <video ref={videoRef} className='w-full h-full block'  />
+            <video ref={videoRef} className='w-full h-full block'/>
             {/* controls */}
             <Controls videoRef={videoRef} />
         </div>
