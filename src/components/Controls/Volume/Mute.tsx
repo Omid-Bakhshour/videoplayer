@@ -18,20 +18,20 @@ const Mute: React.FC<VideoRefType> = ({ videoRef }) => {
     if (videoElement) {
       videoElement.muted = isMuted;
 
-      const handleVolumeChange = () => {
-        if (videoElement.volume === 0) {
-          setIsMuted(true);
-        } else {
-          setIsMuted(false);
-        }
-        localStorage.setItem('isMuted', JSON.stringify(videoElement.muted));
-      };
+      // const handleVolumeChange = () => {
+      //   if (videoElement.volume === 0) {
+      //     setIsMuted(true);
+      //   } else {
+      //     setIsMuted(false);
+      //   }
+      //   localStorage.setItem('isMuted', JSON.stringify(videoElement.muted));
+      // };
 
-      videoElement.addEventListener('volumechange', handleVolumeChange);
+      // videoElement.addEventListener('volumechange', handleVolumeChange);
 
-      return () => {
-        videoElement.removeEventListener('volumechange', handleVolumeChange);
-      };
+      // return () => {
+      //   videoElement.removeEventListener('volumechange', handleVolumeChange);
+      // };
     }
   }, [videoRef, isMuted]);
 
