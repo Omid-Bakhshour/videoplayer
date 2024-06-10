@@ -1,6 +1,7 @@
 import React from 'react'
 import PlayPause from './PlayPause'
 import Volume from './Volume';
+import Duration from './Duration';
 
 type Props = {
     videoRef: React.RefObject<HTMLVideoElement>;
@@ -14,12 +15,13 @@ function Controls({videoRef}: Props) {
             {/* buttons */}
             <div className='w-full flex flex-row gap items-center gap-2' >
                 {/* play && volume && duration */}
-                <div className='flex felx-row gap-2 md:gap-4' >
+                <div className='flex felx-row gap-2 md:gap-4 items-center' >
                     {/* play pause */}
                     <PlayPause videoRef={videoRef} />
                     {/* volume */}
                     <Volume videoRef={videoRef} />
                     {/* duration */}
+                    <Duration videoRef={videoRef} />
                 </div>
 
                 {/* space */}
