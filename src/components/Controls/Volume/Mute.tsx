@@ -1,53 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { VideoRefType } from '@/models/player';
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { VideoRefType, VolumeStateType } from '@/models/player';
 import MuteIcon from '@/icons/volume_mute_fill.svg';
 import VolumeIcon from '@/icons/volume_fill.svg';
 
-const Mute: React.FC<VideoRefType> = ({ videoRef }) => {
-  const [isMuted, setIsMuted] = useState<boolean>(false);
+type PropsType = {
+  value: VolumeStateType
+  setValue: Dispatch<VolumeStateType>
+} & VideoRefType
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedMutedState = localStorage.getItem('isMuted');
-      setIsMuted(savedMutedState ? JSON.parse(savedMutedState) : false);
-    }
-  }, []);
+const Mute: React.FC<PropsType> = ({
+   videoRef,
+   value,
+   setValue
+}) => {
 
   useEffect(() => {
     const videoElement = videoRef.current;
     if (videoElement) {
-      videoElement.muted = isMuted;
-
-      // const handleVolumeChange = () => {
-      //   if (videoElement.volume === 0) {
-      //     setIsMuted(true);
-      //   } else {
-      //     setIsMuted(false);
-      //   }
-      //   localStorage.setItem('isMuted', JSON.stringify(videoElement.muted));
-      // };
-
-      // videoElement.addEventListener('volumechange', handleVolumeChange);
-
-      // return () => {
-      //   videoElement.removeEventListener('volumechange', handleVolumeChange);
-      // };
+      videoElement.muted = value.isMuted;
     }
-  }, [videoRef, isMuted]);
+  }, [videoRef, value]);
 
   const toggleMute = () => {
     const videoElement = videoRef.current;
     if (videoElement) {
+      const savedVolume = localStorage.getItem('volume');
       const newMutedState = !videoElement.muted;
       videoElement.muted = newMutedState;
-      setIsMuted(newMutedState);
+
+      setValue({
+        isMuted: newMutedState,
+        volume: newMutedState === true ? 0 : savedVolume ? JSON.parse(savedVolume) : 0
+      });
+      
       localStorage?.setItem('isMuted', JSON.stringify(newMutedState));
     }
   };
 
   return (
     <div className='cursor-pointer' onClick={toggleMute}>
-      {isMuted ? <MuteIcon /> : <VolumeIcon />}
+      {value.isMuted ? <MuteIcon /> : <VolumeIcon />}
     </div>
   );
 };

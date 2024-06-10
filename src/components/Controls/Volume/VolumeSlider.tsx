@@ -1,25 +1,27 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { VideoRefType } from '@/models/player';
+import React, { useRef, useEffect, Dispatch } from 'react';
+import { VideoRefType, VolumeStateType } from '@/models/player';
 import { throttle } from 'lodash';
 
-const VolumeSlider: React.FC<VideoRefType> = ({ videoRef }) => {
-  const [volume, setVolume] = useState<number>(1);
+type PropsType = {
+  value: VolumeStateType
+  setValue: Dispatch<VolumeStateType>
+} & VideoRefType
+
+
+const VolumeSlider: React.FC<PropsType> = ({
+   videoRef,
+   value,
+   setValue,
+}) => {
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const isDragging = useRef(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedVolume = localStorage.getItem('volume');
-      setVolume(savedVolume ? JSON.parse(savedVolume) : 1);
-    }
-  }, []);
-
-  useEffect(() => {
     const videoElement = videoRef.current;
     if (videoElement) {
-      videoElement.volume = volume;
+      videoElement.volume = value.volume;
     }
-  }, [videoRef, volume]);
+  }, [videoRef, value]);
 
   const updateVolume = (clientX: number) => {
     if (sliderRef.current && videoRef.current) {
@@ -29,8 +31,14 @@ const VolumeSlider: React.FC<VideoRefType> = ({ videoRef }) => {
       const newVolume = Math.min(Math.max(clickPosition / sliderWidth, 0), 1);
 
       videoRef.current.volume = newVolume;
-      setVolume(newVolume);
+      const isMuted = newVolume === 0 ? true  : false
+
+      setValue({
+        volume: newVolume,
+        isMuted: isMuted
+      });
       localStorage.setItem('volume', JSON.stringify(newVolume));
+      localStorage.setItem('isMuted', JSON.stringify(isMuted));
     }
   };
 
@@ -92,7 +100,7 @@ const VolumeSlider: React.FC<VideoRefType> = ({ videoRef }) => {
         {/* Progress */}
         <div
           className='h-full rounded-full absolute z-[1] left-0 top-0 bottom-0 bg-white'
-          style={{ width: `${volume * 100}%` }}
+          style={{ width: `${value.volume * 100}%` }}
         >
           {/* Circle */}
           <div className='absolute w-4 h-4 block rounded-full -right-2 -top-1 z-[2] bg-white' />
