@@ -3,17 +3,29 @@ import PlayPause from './PlayPause'
 import Volume from './Volume';
 import Duration from './Duration';
 import TimeSlider from './TimeSlider';
+import useDuration from '@/hooks/useDuration';
 
 type Props = {
     videoRef: React.RefObject<HTMLVideoElement>;
 }
 
 function Controls({videoRef}: Props) {
+    const {
+        currentTime,
+        duration,
+        setCurrentTime,
+    } = useDuration(videoRef)
+
     return (
         <div className='absolute z-[1] bottom-0 left-0 right-0 w-full flex flex-col gap-4 p-4' >
             {/* timeSlider */}
             <div className='w-full relatice' >
-                <TimeSlider videoRef={videoRef} />
+                <TimeSlider 
+                    videoRef={videoRef}
+                    currentTime={currentTime}
+                    duration={duration}
+                    setCurrentTime={setCurrentTime}
+                />
             </div>
 
             {/* buttons */}
@@ -25,7 +37,10 @@ function Controls({videoRef}: Props) {
                     {/* volume */}
                     <Volume videoRef={videoRef} />
                     {/* duration */}
-                    <Duration videoRef={videoRef} />
+                    <Duration
+                        currentTime={currentTime}
+                        duration={duration}
+                     />
                 </div>
 
                 {/* space */}

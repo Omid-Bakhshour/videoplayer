@@ -1,7 +1,10 @@
 import { VideoRefType } from '@/models/player'
 import React, { useEffect, useState } from 'react'
 
-type Props = VideoRefType
+type Props = {
+  duration: number
+  currentTime: number
+}
 
 const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
@@ -14,31 +17,7 @@ const formatTime = (seconds: number) => {
     return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   };
 
-function Duration({ videoRef }: Props) {
-    const [currentTime, setCurrentTime] = useState<number>(0);
-    const [duration, setDuration] = useState<number>(0);
-
-    useEffect(() => {
-        const videoElement = videoRef.current;
-    
-        if (videoElement) {
-          const handleTimeUpdate = () => {
-            setCurrentTime(videoElement.currentTime);
-          };
-
-          const handleLoadedMetadata = () => {
-            setDuration(videoElement.duration);
-          };
-
-          videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
-          videoElement.addEventListener('timeupdate', handleTimeUpdate);
-
-          return () => {
-              videoElement.removeEventListener('timeupdate', handleTimeUpdate);
-              videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
-          };
-        }
-      }, [videoRef]);
+function Duration({ duration, currentTime }: Props) {
 
     return (
         <span className='text-[14px] text-white flex gap-1' >
