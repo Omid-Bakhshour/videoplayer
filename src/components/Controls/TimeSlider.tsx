@@ -30,13 +30,14 @@ const TimeSlider: React.FC<PropsType> = ({
 
     const throttledUpdateCurrentTime = throttle(updateCurrentTime, 50);
 
-
     const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+        event.preventDefault();
         isDragging.current = true;
         updateCurrentTime(event.clientX);
     };
 
     const handleMouseMove = (event: MouseEvent) => {
+        event.preventDefault();
         if (isDragging.current) {
             updateCurrentTime(event.clientX);
         }
@@ -45,31 +46,30 @@ const TimeSlider: React.FC<PropsType> = ({
     const handleMouseUp = () => {
         if (isDragging.current) {
             isDragging.current = false;
-            if (videoRef.current) {
-                videoRef.current.currentTime = currentTime;
-            }
         }
     };
 
     const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+        event.preventDefault();
         isDragging.current = true;
         updateCurrentTime(event.touches[0].clientX);
-      };
-    
-      const handleTouchMove = (event: TouchEvent) => {
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
         if (isDragging.current) {
+            event.preventDefault();
+            console.log("Touch move detected, updating time", event.touches[0].clientX);
             throttledUpdateCurrentTime(event.touches[0].clientX);
         }
-      };
-    
-      const handleTouchEnd = () => {
+    };
+    const handleTouchEnd = () => {
         isDragging.current = false;
-      };
+    };
 
     useEffect(() => {
-        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mousemove', handleMouseMove, { passive: false });
         document.addEventListener('mouseup', handleMouseUp);
-        document.addEventListener('touchmove', handleTouchMove);
+        document.addEventListener('touchmove', handleTouchMove, { passive: false });
         document.addEventListener('touchend', handleTouchEnd);
 
 
@@ -88,7 +88,7 @@ const TimeSlider: React.FC<PropsType> = ({
                 ref={sliderRef}
                 onMouseDown={handleMouseDown}
                 onClick={(e) => updateCurrentTime(e.clientX)}
-                onTouchMoveCapture={handleTouchStart}
+                onTouchStart={handleTouchStart}
 
             >
                 <div className='w-full h-full block rounded-full bg-slate-600' />
