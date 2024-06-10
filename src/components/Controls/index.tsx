@@ -27,10 +27,9 @@ function Controls({videoRef}: Props) {
                     setCurrentTime={setCurrentTime}
                 />
             </div>
-
             {/* buttons */}
             <div className='w-full flex flex-row gap items-center gap-2' >
-                {/* play && volume && duration */}
+                {/* left buttons */}
                 <div className='flex felx-row gap-2 md:gap-4 items-center' >
                     {/* play pause */}
                     <PlayPause videoRef={videoRef} />
@@ -42,10 +41,9 @@ function Controls({videoRef}: Props) {
                         duration={duration}
                      />
                 </div>
-
                 {/* space */}
                 <div className='hidden w-full md:block flex-1' />
-
+                {/* right buttons */}
                 <div className='flex items-center gap-2 md:gap-4' >
                     {/* captions list */}
                     {/* quality select list */}
