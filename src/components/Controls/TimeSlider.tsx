@@ -3,9 +3,9 @@ import { VideoRefType } from '@/models/player';
 import { throttle } from 'lodash';
 
 type PropsType = {
-    duration :number,
-    currentTime: number,
-    setCurrentTime: Dispatch<SetStateAction<number>>,
+    duration: number;
+    currentTime: number;
+    setCurrentTime: Dispatch<SetStateAction<number>>;
 } & VideoRefType;
 
 const TimeSlider: React.FC<PropsType> = ({
@@ -17,43 +17,69 @@ const TimeSlider: React.FC<PropsType> = ({
     const sliderRef = useRef<HTMLDivElement | null>(null);
     const isDragging = useRef<boolean>(false);
 
-
-    const updateCurrentTime = (e: MouseEvent | React.MouseEvent) => {
+    const updateCurrentTime = (clientX: number) => {
         if (sliderRef.current && videoRef.current) {
-            const clientX = e.clientX
             const sliderWidth = sliderRef.current.offsetWidth;
             const sliderLeft = sliderRef.current.getBoundingClientRect().left;
             const clickPosition = clientX - sliderLeft;
             const newTime = Math.min(Math.max((clickPosition / sliderWidth) * duration, 0), duration);
-            videoRef.current.currentTime = newTime;
             setCurrentTime(newTime);
+            videoRef.current.currentTime = newTime;
         }
     };
 
+    const throttledUpdateCurrentTime = throttle(updateCurrentTime, 50);
+
+
     const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-      isDragging.current = true;
-      updateCurrentTime(event);
+        isDragging.current = true;
+        updateCurrentTime(event.clientX);
     };
-  
+
     const handleMouseMove = (event: MouseEvent) => {
-      if (isDragging.current) {
-        updateCurrentTime(event);
-      }
+        if (isDragging.current) {
+            updateCurrentTime(event.clientX);
+        }
     };
-  
+
     const handleMouseUp = () => {
-      isDragging.current = false;
+        if (isDragging.current) {
+            isDragging.current = false;
+            if (videoRef.current) {
+                videoRef.current.currentTime = currentTime;
+            }
+        }
     };
+
+    const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+        isDragging.current = true;
+        updateCurrentTime(event.touches[0].clientX);
+      };
+    
+      const handleTouchMove = (event: TouchEvent) => {
+        if (isDragging.current) {
+            throttledUpdateCurrentTime(event.touches[0].clientX);
+        }
+      };
+    
+      const handleTouchEnd = () => {
+        isDragging.current = false;
+      };
 
     useEffect(() => {
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('mouseup', handleMouseUp);
-    
+        document.addEventListener('touchmove', handleTouchMove);
+        document.addEventListener('touchend', handleTouchEnd);
+
+
         return () => {
-          document.removeEventListener('mousemove', handleMouseMove);
-          document.removeEventListener('mouseup', handleMouseUp);
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+            document.removeEventListener('touchmove', handleTouchMove);
+            document.removeEventListener('touchend', handleTouchEnd);
         };
-      }, []);
+    }, [currentTime]);
 
     return (
         <div className='relative'>
@@ -61,6 +87,9 @@ const TimeSlider: React.FC<PropsType> = ({
                 className='w-full h-[6px] relative cursor-pointer'
                 ref={sliderRef}
                 onMouseDown={handleMouseDown}
+                onClick={(e) => updateCurrentTime(e.clientX)}
+                onTouchMoveCapture={handleTouchStart}
+
             >
                 <div className='w-full h-full block rounded-full bg-slate-600' />
                 {/* Progress */}
