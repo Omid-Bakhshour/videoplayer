@@ -1,21 +1,26 @@
-
-
+import { initialPlayerOption } from '@/constants/controls';
+import { PlayerOptionType } from '@/models/player';
 import React, { useEffect, useState } from 'react'
 
-const  useDuration = (videoRef: React.RefObject<HTMLVideoElement>) => {
-    const [currentTime, setCurrentTime] = useState<number>(0);
-    const [duration, setDuration] = useState<number>(0);
+const usePlayer = (videoRef: React.RefObject<HTMLVideoElement>) => {
+    const [playerOption, setPlayerOption] = useState<PlayerOptionType>(initialPlayerOption)
 
     useEffect(() => {
         const videoElement = videoRef.current;
     
         if (videoElement) {
           const handleTimeUpdate = () => {
-            setCurrentTime(videoElement.currentTime);
+            setPlayerOption(prev => ({
+              ...prev,
+              currentTime: videoElement.currentTime,
+            }));
           };
-
+    
           const handleLoadedMetadata = () => {
-            setDuration(videoElement.duration);
+            setPlayerOption(prev => ({
+              ...prev,
+              duration: videoElement.duration,
+            }));
           };
 
           videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
@@ -30,12 +35,10 @@ const  useDuration = (videoRef: React.RefObject<HTMLVideoElement>) => {
 
 
       return {
-        currentTime,
-        setCurrentTime,
-        duration,
-        setDuration
+        playerOption,
+        setPlayerOption,
       }
  
 }
 
-export default useDuration
+export default usePlayer

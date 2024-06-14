@@ -3,10 +3,11 @@ import PlayPause from './PlayPause'
 import Volume from './Volume';
 import Duration from './Duration';
 import TimeSlider from './TimeSlider';
-import useDuration from '@/hooks/useDuration';
 import PlayBackRate from './PlayBackRate';
 import QualityList from './QualityList';
 import Hls from 'hls.js';
+import usePlayer from '@/hooks/usePlayer';
+import { initialPlayerOption } from '@/constants/controls';
 
 type Props = {
     videoRef: React.RefObject<HTMLVideoElement>;
@@ -15,10 +16,9 @@ type Props = {
 
 function Controls({ videoRef, hls, ...props }: Props) {
     const {
-        currentTime,
-        duration,
-        setCurrentTime,
-    } = useDuration(videoRef)
+        playerOption,
+        setPlayerOption,
+    } = usePlayer(videoRef)
 
     const qualities = (props as any).qualities ? (props as any).qualities : [];
 
@@ -28,9 +28,13 @@ function Controls({ videoRef, hls, ...props }: Props) {
             <div className='w-full relatice' >
                 <TimeSlider
                     videoRef={videoRef}
-                    currentTime={currentTime}
-                    duration={duration}
-                    setCurrentTime={setCurrentTime}
+                    playerOption={playerOption}
+                    setPlayerOption={(value: number) => {
+                        setPlayerOption(prev => ({
+                            ...prev,
+                            currentTime: value
+                        }))
+                    }}
                 />
             </div>
             {/* buttons */}
@@ -43,8 +47,8 @@ function Controls({ videoRef, hls, ...props }: Props) {
                     <Volume videoRef={videoRef} />
                     {/* duration */}
                     <Duration
-                        currentTime={currentTime}
-                        duration={duration}
+                        currentTime={playerOption?.currentTime}
+                        duration={playerOption?.duration}
                     />
                 </div>
                 {/* space */}
@@ -58,6 +62,13 @@ function Controls({ videoRef, hls, ...props }: Props) {
                     <QualityList
                         qualities={qualities}
                         hls={hls}
+                        value={playerOption?.quality || initialPlayerOption.quality}
+                        setValue={(value: number) => {
+                            setPlayerOption(prev => ({
+                                ...prev,
+                                quality: value
+                            }))
+                        }}
                     />
                     {/* mini player */}
                     {/* theather mode */}

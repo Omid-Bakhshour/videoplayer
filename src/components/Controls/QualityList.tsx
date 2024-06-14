@@ -4,11 +4,17 @@ import QualityIcon from '@/icons/movie_line.svg';
 interface QualityListProps {
     qualities: any[];
     hls: any
+    value: number
+    setValue: (value: number) => void
 }
 
-const QualityList: React.FC<QualityListProps> = ({ qualities, hls}) => {
+const QualityList: React.FC<QualityListProps> = ({ 
+    qualities,
+    hls,
+    value,
+    setValue
+}) => {
     const shouldShowComponent = hls && hls.current && qualities && Array.isArray(qualities) && qualities.length > 0    
-    const [currentQuality, setCurrentQuality] = useState<number>(-1);
 
     if(!shouldShowComponent) {
         return <></>
@@ -17,7 +23,7 @@ const QualityList: React.FC<QualityListProps> = ({ qualities, hls}) => {
     const handleQualityChange = (levelIndex: number) => {
         if (hls.current) {
             hls.current.currentLevel = levelIndex;
-            setCurrentQuality(levelIndex);
+            setValue(levelIndex);
         }
     };
 
@@ -28,11 +34,11 @@ const QualityList: React.FC<QualityListProps> = ({ qualities, hls}) => {
             </div>
             <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-[3]">
                 <li key='auto' onClick={() => handleQualityChange(-1)}>
-                    <a className={currentQuality === -1 ? 'active' : ''}>Auto</a>
+                    <a className={value === -1 ? 'active' : ''}>Auto</a>
                 </li>
                 {qualities?.map((level, index) => (
                     <li key={index} onClick={() => handleQualityChange(index)}>
-                        <a className={currentQuality === index ? 'active' : ''}>{level.height}p</a>
+                        <a className={value === index ? 'active' : ''}>{level.height}p</a>
                     </li>
                 ))}
             </ul>
