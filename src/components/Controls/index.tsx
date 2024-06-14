@@ -4,7 +4,7 @@ import Volume from './Volume';
 import Duration from './Duration';
 import TimeSlider from './TimeSlider';
 import useDuration from '@/hooks/useDuration';
-import PlaySpeed from './PlaySpeed';
+import PlayBackRate from './PlayBackRate';
 
 type Props = {
     videoRef: React.RefObject<HTMLVideoElement>;
@@ -46,8 +46,8 @@ function Controls({ videoRef }: Props) {
                 <div className='hidden w-full md:block flex-1' />
                 {/* right buttons */}
                 <div className='flex items-center gap-2 md:gap-4' >
-                    {/* select speed */}
-                    <PlaySpeed videoRef={videoRef} />
+                    {/* play back rate */}
+                    <PlayBackRate videoRef={videoRef} />
                     {/* captions list */}
                     {/* quality select list */}
                     {/* mini player */}
