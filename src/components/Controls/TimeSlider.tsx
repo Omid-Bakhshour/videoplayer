@@ -1,13 +1,9 @@
 import React, { useRef, useEffect, useState} from 'react';
-import { PlayerOptionType, SetValuePartialType, VideoRefType } from '@/models/player';
+import { ControlPropsType} from '@/models/player';
 import { throttle } from 'lodash';
 
-type PropsType = {
-  value: PlayerOptionType;
-  setValue: SetValuePartialType ;
-} & VideoRefType;
 
-const TimeSlider: React.FC<PropsType> = ({
+const TimeSlider: React.FC<ControlPropsType> = ({
   videoRef,
   value,
   setValue,

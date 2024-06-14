@@ -56,7 +56,7 @@ function Controls({ videoRef, hls, ...props }: Props) {
                     <Volume 
                         videoRef={videoRef}
                         value={playerOption}
-                        setValue={setPlayerOption}
+                        setValue={onSetOptionsChangeHandler}
                     />
                     {/* duration */}
                     <Duration
