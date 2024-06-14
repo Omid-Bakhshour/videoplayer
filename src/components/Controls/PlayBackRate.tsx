@@ -34,10 +34,12 @@ function PlayBackRate({ videoRef }: VideoRefType) {
                     PLAY_BACK_RATE_LIST.map((item) => {
                         const isActive = item.value === playback
                         return (
-                            <li key={item.value} className={`${isActive ? "bg-slate-100 rounded-md" : ""} cursor-pointer`}  
+                            <li key={item.value}  
                              onClick={() => handleSpeedChange(item.value)} 
                             >
-                              <a>{item.label}</a>
+                              <a 
+                                  className={`${isActive ? "active" : ""}`}
+                               >{item.label}</a>
                             </li>
                         )
                     })

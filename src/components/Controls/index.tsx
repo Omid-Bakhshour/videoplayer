@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { MutableRefObject } from 'react'
 import PlayPause from './PlayPause'
 import Volume from './Volume';
 import Duration from './Duration';
@@ -10,7 +10,7 @@ import Hls from 'hls.js';
 
 type Props = {
     videoRef: React.RefObject<HTMLVideoElement>;
-    hls: any
+    hls: MutableRefObject<Hls | null>
 }
 
 function Controls({ videoRef, hls, ...props }: Props) {
@@ -19,6 +19,8 @@ function Controls({ videoRef, hls, ...props }: Props) {
         duration,
         setCurrentTime,
     } = useDuration(videoRef)
+
+    const qualities = (props as any).qualities ? (props as any).qualities : [];
 
     return (
         <div className='absolute z-[1] bottom-0 left-0 right-0 w-full flex flex-col gap-4 p-4' >
@@ -53,9 +55,8 @@ function Controls({ videoRef, hls, ...props }: Props) {
                     {/* play back rate */}
                     <PlayBackRate videoRef={videoRef} />
                     {/* quality select list */}
-                    
                     <QualityList
-                        qualities={props?.qualities || []}
+                        qualities={qualities}
                         hls={hls}
                     />
                     {/* mini player */}

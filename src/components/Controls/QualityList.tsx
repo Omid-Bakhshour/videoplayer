@@ -7,7 +7,12 @@ interface QualityListProps {
 }
 
 const QualityList: React.FC<QualityListProps> = ({ qualities, hls}) => {
+    const shouldShowComponent = hls && hls.current && qualities && Array.isArray(qualities) && qualities.length > 0    
     const [currentQuality, setCurrentQuality] = useState<number>(-1);
+
+    if(!shouldShowComponent) {
+        return <></>
+    }
 
     const handleQualityChange = (levelIndex: number) => {
         if (hls.current) {
