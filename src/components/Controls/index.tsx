@@ -4,12 +4,13 @@ import Volume from './Volume';
 import Duration from './Duration';
 import TimeSlider from './TimeSlider';
 import useDuration from '@/hooks/useDuration';
+import PlaySpeed from './PlaySpeed';
 
 type Props = {
     videoRef: React.RefObject<HTMLVideoElement>;
 }
 
-function Controls({videoRef}: Props) {
+function Controls({ videoRef }: Props) {
     const {
         currentTime,
         duration,
@@ -20,7 +21,7 @@ function Controls({videoRef}: Props) {
         <div className='absolute z-[1] bottom-0 left-0 right-0 w-full flex flex-col gap-4 p-4' >
             {/* timeSlider */}
             <div className='w-full relatice' >
-                <TimeSlider 
+                <TimeSlider
                     videoRef={videoRef}
                     currentTime={currentTime}
                     duration={duration}
@@ -39,14 +40,17 @@ function Controls({videoRef}: Props) {
                     <Duration
                         currentTime={currentTime}
                         duration={duration}
-                     />
+                    />
                 </div>
                 {/* space */}
                 <div className='hidden w-full md:block flex-1' />
                 {/* right buttons */}
                 <div className='flex items-center gap-2 md:gap-4' >
+                    {/* select speed */}
+                    <PlaySpeed/>
                     {/* captions list */}
                     {/* quality select list */}
+                    {/* mini player */}
                     {/* theather mode */}
                     {/* fullscreen */}
                 </div>
