@@ -1,23 +1,23 @@
-import React, { useRef, useEffect, useState, SetStateAction, Dispatch } from 'react';
-import { PlayerOptionType, VideoRefType } from '@/models/player';
+import React, { useRef, useEffect, useState} from 'react';
+import { PlayerOptionType, SetValuePartialType, VideoRefType } from '@/models/player';
 import { throttle } from 'lodash';
 
 type PropsType = {
-  playerOption: PlayerOptionType;
-  setPlayerOption: (value: number) => void ;
+  value: PlayerOptionType;
+  setValue: SetValuePartialType ;
 } & VideoRefType;
 
 const TimeSlider: React.FC<PropsType> = ({
   videoRef,
-  playerOption,
-  setPlayerOption,
+  value,
+  setValue,
 }) => {
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const isDragging = useRef<boolean>(false);
   const wasPlaying = useRef<boolean>(false);
   const [bufferedTime, setBufferedTime] = useState<number>(0);
-  const duration = playerOption?.duration
-  const currentTime = playerOption?.currentTime
+  const duration = value?.duration
+  const currentTime = value?.currentTime
 
   const updateBufferedTime = () => {
     const videoElement = videoRef.current;
@@ -35,7 +35,9 @@ const TimeSlider: React.FC<PropsType> = ({
       const sliderLeft = sliderRef.current.getBoundingClientRect().left;
       const clickPosition = clientX - sliderLeft;
       const newTime = Math.min(Math.max((clickPosition / sliderWidth) * duration, 0), duration);
-      setPlayerOption(newTime);
+      setValue({
+        currentTime: newTime
+      });
       videoRef.current.currentTime = newTime;
     }
   };

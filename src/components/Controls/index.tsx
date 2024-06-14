@@ -8,6 +8,7 @@ import QualityList from './QualityList';
 import Hls from 'hls.js';
 import usePlayer from '@/hooks/usePlayer';
 import { initialPlayerOption } from '@/constants/controls';
+import { PlayerOptionsObjectType } from '@/models/player';
 
 type Props = {
     videoRef: React.RefObject<HTMLVideoElement>;
@@ -22,19 +23,22 @@ function Controls({ videoRef, hls, ...props }: Props) {
 
     const qualities = (props as any).qualities ? (props as any).qualities : [];
 
+    const onSetOptionsChangeHandler = (object: PlayerOptionsObjectType) => {
+        setPlayerOption(prev => ({
+            ...prev,
+            ...object
+        }))
+
+    }
+
     return (
         <div className='absolute z-[1] bottom-0 left-0 right-0 w-full flex flex-col gap-4 p-4' >
             {/* timeSlider */}
             <div className='w-full relatice' >
                 <TimeSlider
                     videoRef={videoRef}
-                    playerOption={playerOption}
-                    setPlayerOption={(value: number) => {
-                        setPlayerOption(prev => ({
-                            ...prev,
-                            currentTime: value
-                        }))
-                    }}
+                    value={playerOption}
+                    setValue={onSetOptionsChangeHandler}
                 />
             </div>
             {/* buttons */}
@@ -42,12 +46,17 @@ function Controls({ videoRef, hls, ...props }: Props) {
                 {/* left buttons */}
                 <div className='flex felx-row gap-2 md:gap-4 items-center' >
                     {/* play pause */}
-                    <PlayPause videoRef={videoRef} />
+                    <PlayPause 
+                        videoRef={videoRef}
+                        value={playerOption.isPlaying || false}
+                        setValue={onSetOptionsChangeHandler}
+
+                    />
                     {/* volume */}
                     <Volume 
                         videoRef={videoRef}
-                        playerOptions={playerOption}
-                        setPlayerOptions={setPlayerOption}
+                        value={playerOption}
+                        setValue={setPlayerOption}
                     />
                     {/* duration */}
                     <Duration

@@ -1,29 +1,16 @@
-import React, { Dispatch, SetStateAction, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Mute from './Mute';
-import { PlayerOptionType, VideoRefType } from '@/models/player';
+import { ControlPropsType } from '@/models/player';
 import VolumeSlider from './VolumeSlider';
-
-type Props = {
-  playerOptions: PlayerOptionType
-  setPlayerOptions: Dispatch<SetStateAction<any>>
-} & VideoRefType
-
 
 function Volume({
   videoRef,
-  playerOptions,
-  setPlayerOptions
-}: Props) {
+  value,
+  setValue
+}: ControlPropsType) {
   const initialVolume = {
-    isMuted: playerOptions.isMuted,
-    volume: playerOptions.volume
-  }
-
-  const onVolumeChangeHandler = (volumeObject: {isMuted: boolean , volume: number}) => {
-    setPlayerOptions((prev: PlayerOptionType)=> ({
-      ...prev,
-      ...volumeObject
-    }));
+    isMuted: value.isMuted,
+    volume: value.volume
   }
 
   useEffect(() => {
@@ -32,7 +19,7 @@ function Volume({
       const savedVolume = localStorage.getItem('volume');
       const isMuted = savedMutedState ? JSON.parse(savedMutedState) : false
 
-      onVolumeChangeHandler({
+      setValue({
         isMuted: isMuted ,
         volume: isMuted == true ? 0 : savedVolume ? JSON.parse(savedVolume) : 1
       })
@@ -45,13 +32,13 @@ function Volume({
         <Mute 
            videoRef={videoRef}
            value={initialVolume}
-           setValue ={onVolumeChangeHandler}
+           setValue ={setValue}
         />
         {/* volume slider*/}
         <VolumeSlider 
            videoRef={videoRef}
            value={initialVolume}
-           setValue ={onVolumeChangeHandler}
+           setValue ={setValue}
         />
     </div>
   )

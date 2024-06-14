@@ -1,17 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PlayIcon from '@/icons/play_fill.svg';
 import PauseIcon from '@/icons/pause_fill.svg';
-import { VideoRefType } from '@/models/player';
+import { SetValuePartialType, VideoRefType } from '@/models/player';
 
-function PlayPause({ videoRef }: VideoRefType) {
-    const [isPlaying, setIsPlaying] = useState(false);
+type Props = {
+    value: boolean,
+    setValue: SetValuePartialType
+} & VideoRefType
 
+function PlayPause({ 
+    videoRef,
+    value,
+    setValue,
+
+ }: Props) {
+    const isPlaying = value
+    
     const handlePlay = () => {
-        setIsPlaying(true)
+        setValue({
+            isPlaying: true
+        })
     }
 
     const handlePause = () => {
-        setIsPlaying(false)
+        setValue({
+            isPlaying: false
+        })    
     }
 
     useEffect(() => {
