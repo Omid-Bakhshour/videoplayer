@@ -11,4 +11,8 @@ export type PlayerOptionType = {
     currentTime: number
     duration: number
     quality: number
+    isPlaying: boolean
+    isMuted: boolean
+    volume: number
+    playbackRate: number
 }

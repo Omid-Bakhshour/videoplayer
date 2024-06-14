@@ -44,7 +44,11 @@ function Controls({ videoRef, hls, ...props }: Props) {
                     {/* play pause */}
                     <PlayPause videoRef={videoRef} />
                     {/* volume */}
-                    <Volume videoRef={videoRef} />
+                    <Volume 
+                        videoRef={videoRef}
+                        playerOptions={playerOption}
+                        setPlayerOptions={setPlayerOption}
+                    />
                     {/* duration */}
                     <Duration
                         currentTime={playerOption?.currentTime}

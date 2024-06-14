@@ -1,15 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect } from 'react'
 import Mute from './Mute';
-import { VideoRefType, VolumeStateType } from '@/models/player';
+import { PlayerOptionType, VideoRefType } from '@/models/player';
 import VolumeSlider from './VolumeSlider';
 
-const initialState = {
-  isMuted: false,
-  volume: 0
-}
+type Props = {
+  playerOptions: PlayerOptionType
+  setPlayerOptions: Dispatch<SetStateAction<any>>
+} & VideoRefType
 
-function Volume({videoRef}: VideoRefType) {
-  const [volume, setVolume] = useState<VolumeStateType>(initialState)
+
+function Volume({
+  videoRef,
+  playerOptions,
+  setPlayerOptions
+}: Props) {
+  const initialVolume = {
+    isMuted: playerOptions.isMuted,
+    volume: playerOptions.volume
+  }
+
+  const onVolumeChangeHandler = (volumeObject: {isMuted: boolean , volume: number}) => {
+    setPlayerOptions((prev: PlayerOptionType)=> ({
+      ...prev,
+      ...volumeObject
+    }));
+  }
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -17,10 +32,10 @@ function Volume({videoRef}: VideoRefType) {
       const savedVolume = localStorage.getItem('volume');
       const isMuted = savedMutedState ? JSON.parse(savedMutedState) : false
 
-      setVolume({
+      onVolumeChangeHandler({
         isMuted: isMuted ,
         volume: isMuted == true ? 0 : savedVolume ? JSON.parse(savedVolume) : 1
-      });
+      })
     }
   }, []);
 
@@ -29,14 +44,14 @@ function Volume({videoRef}: VideoRefType) {
         {/* mute */}
         <Mute 
            videoRef={videoRef}
-           value={volume}
-           setValue ={setVolume}
+           value={initialVolume}
+           setValue ={onVolumeChangeHandler}
         />
         {/* volume slider*/}
         <VolumeSlider 
            videoRef={videoRef}
-           value={volume}
-           setValue ={setVolume}
+           value={initialVolume}
+           setValue ={onVolumeChangeHandler}
         />
     </div>
   )

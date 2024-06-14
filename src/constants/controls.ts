@@ -3,7 +3,11 @@
 export const initialPlayerOption = {
     currentTime: 0,
     duration: 0,
-    quality: -1
+    quality: -1,
+    isPlaying: false,
+    isMuted: false,
+    volume: 0,
+    playbackRate: 1,
 }
 
 export const PLAY_BACK_RATE_LIST = [
