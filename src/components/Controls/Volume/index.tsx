@@ -10,7 +10,7 @@ function Volume({
 }: ControlPropsType) {
   const initialVolume = {
     isMuted: value.isMuted,
-    volume: value.volume
+    volume: value?.volume || 1
   }
 
   useEffect(() => {

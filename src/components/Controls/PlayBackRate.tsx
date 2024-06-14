@@ -1,53 +1,67 @@
 import { PLAY_BACK_RATE_LIST } from '@/constants/controls'
-import { VideoRefType } from '@/models/player'
-import React, { useEffect, useState } from 'react'
+import { SetValuePartialType, VideoRefType } from '@/models/player'
+import React, { useEffect } from 'react'
 import SpeedIcon from '@/icons/speed.svg'
 
 const SPEED_LOCAL_NAME = "playerSpeed"
 
-function PlayBackRate({ videoRef }: VideoRefType) {
-    const [playback, setPlayback] = useState<number>(1);
+type Props = {
+  value: number,
+  setValue: SetValuePartialType
+} & VideoRefType
 
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-          const savedSpeed = localStorage.getItem(SPEED_LOCAL_NAME);
-          const initialSpeedValue = savedSpeed ? JSON.parse(savedSpeed) : 1
-          setPlayback(initialSpeedValue);
+
+function PlayBackRate({
+  videoRef,
+  value,
+  setValue
+}: Props) {
+
+  const onValueChangeHandler = (value: number) => {
+    setValue({
+      playbackRate: value
+    })
+  }
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedSpeed = localStorage.getItem(SPEED_LOCAL_NAME);
+      const initialSpeedValue = savedSpeed ? JSON.parse(savedSpeed) : 1
+      onValueChangeHandler(initialSpeedValue);
+    }
+  }, []);
+
+  const handleSpeedChange = (value: number) => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = value;
+      onValueChangeHandler(value)
+      localStorage?.setItem(SPEED_LOCAL_NAME, JSON.stringify(value));
+    }
+  };
+
+  return (
+    <div className='dropdown lg:dropdown-top dropdown-end' >
+      <div title='speed' tabIndex={0} className=" cursor-pointer">
+        <SpeedIcon />
+      </div>
+      <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mb-2 ' >
+        {
+          PLAY_BACK_RATE_LIST.map((item) => {
+            const isActive = item.value === value
+            return (
+              <li key={item.value}
+                onClick={() => handleSpeedChange(item.value)}
+              >
+                <a
+                  className={`${isActive ? "active" : ""}`}
+                >{item.label}</a>
+              </li>
+            )
+          })
         }
-      }, []);
-
-    const handleSpeedChange = (value: number) => {
-        if (videoRef.current) {
-            videoRef.current.playbackRate = value;
-            setPlayback(value)
-            localStorage?.setItem(SPEED_LOCAL_NAME, JSON.stringify(value));
-        }
-    };
-
-    return (
-        <div className='dropdown lg:dropdown-top dropdown-end' >
-              <div title='speed' tabIndex={0}  className=" cursor-pointer">
-                <SpeedIcon/>
-              </div>
-              <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mb-2 ' >
-                {
-                    PLAY_BACK_RATE_LIST.map((item) => {
-                        const isActive = item.value === playback
-                        return (
-                            <li key={item.value}  
-                             onClick={() => handleSpeedChange(item.value)} 
-                            >
-                              <a 
-                                  className={`${isActive ? "active" : ""}`}
-                               >{item.label}</a>
-                            </li>
-                        )
-                    })
-                }
-              </ul>
-        </div>
-
-    )
+      </ul>
+    </div>
+  )
 }
 
 export default PlayBackRate

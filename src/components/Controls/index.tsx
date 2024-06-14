@@ -70,7 +70,11 @@ function Controls({ videoRef, hls, ...props }: Props) {
                 <div className='flex items-center gap-2 md:gap-4' >
                     {/* captions list */}
                     {/* play back rate */}
-                    <PlayBackRate videoRef={videoRef} />
+                    <PlayBackRate 
+                        videoRef={videoRef}
+                        value={playerOption.playbackRate || 1}
+                        setValue={onSetOptionsChangeHandler}
+                    />
                     {/* quality select list */}
                     <QualityList
                         qualities={qualities}
