@@ -5,12 +5,15 @@ import Duration from './Duration';
 import TimeSlider from './TimeSlider';
 import useDuration from '@/hooks/useDuration';
 import PlayBackRate from './PlayBackRate';
+import QualityList from './QualityList';
+import Hls from 'hls.js';
 
 type Props = {
     videoRef: React.RefObject<HTMLVideoElement>;
+    hls: any
 }
 
-function Controls({ videoRef }: Props) {
+function Controls({ videoRef, hls, ...props }: Props) {
     const {
         currentTime,
         duration,
@@ -46,10 +49,15 @@ function Controls({ videoRef }: Props) {
                 <div className='hidden w-full md:block flex-1' />
                 {/* right buttons */}
                 <div className='flex items-center gap-2 md:gap-4' >
+                    {/* captions list */}
                     {/* play back rate */}
                     <PlayBackRate videoRef={videoRef} />
-                    {/* captions list */}
                     {/* quality select list */}
+                    
+                    <QualityList
+                        qualities={props?.qualities || []}
+                        hls={hls}
+                    />
                     {/* mini player */}
                     {/* theather mode */}
                     {/* fullscreen */}

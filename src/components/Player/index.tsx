@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Hls from 'hls.js';
 import Controls from '../Controls';
 
@@ -13,16 +13,18 @@ const isHlsSource = (src: string) => {
 
 function Player() {
     const videoRef = useRef<HTMLVideoElement | null>(null);
+    const hls = useRef<Hls | null>(null);
+    const [qualities, setQualities] = useState<any>([]);
 
     useEffect(() => {
-        let hls: Hls | null = null;
 
         if (videoRef.current) {
             if (Hls.isSupported() && isHlsSource(VIDEO_HLS_SRC)) {
-                hls = new Hls();
-                hls.loadSource(VIDEO_HLS_SRC);
-                hls.attachMedia(videoRef.current);
-                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                hls.current = new Hls();
+                hls.current.loadSource(VIDEO_HLS_SRC);
+                hls.current.attachMedia(videoRef.current);
+                hls.current.on(Hls.Events.MANIFEST_PARSED, () => {
+                    setQualities(hls.current?.levels)
                     videoRef.current?.play();
                 });
             } else {
@@ -39,17 +41,22 @@ function Player() {
         }
 
         return () => {
-            if (hls) {
-                hls.destroy();
+            if (hls.current) {
+                hls.current.destroy();
             }
         };
     }, []);
+
+
+    const options = {
+        qualities
+    }
 
     return (
         <div className='w-[1500px] relative h-auto block' >
             <video ref={videoRef} className='w-full h-full block'/>
             {/* controls */}
-            <Controls videoRef={videoRef} />
+            <Controls videoRef={videoRef} hls={hls} {...options} />
         </div>
     );
 }
