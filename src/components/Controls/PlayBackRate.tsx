@@ -26,7 +26,7 @@ function PlayBackRate({ videoRef }: VideoRefType) {
 
     return (
         <div className='dropdown lg:dropdown-top dropdown-end' >
-              <div tabIndex={0}  className=" cursor-pointer">
+              <div title='speed' tabIndex={0}  className=" cursor-pointer">
                 <SpeedIcon/>
               </div>
               <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mb-2 ' >
