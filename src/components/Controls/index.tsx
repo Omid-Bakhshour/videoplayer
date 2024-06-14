@@ -80,12 +80,7 @@ function Controls({ videoRef, hls, ...props }: Props) {
                         qualities={qualities}
                         hls={hls}
                         value={playerOption?.quality || initialPlayerOption.quality}
-                        setValue={(value: number) => {
-                            setPlayerOption(prev => ({
-                                ...prev,
-                                quality: value
-                            }))
-                        }}
+                        setValue={onSetOptionsChangeHandler}
                     />
                     {/* mini player */}
                     {/* theather mode */}

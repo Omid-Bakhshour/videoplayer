@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import QualityIcon from '@/icons/movie_line.svg';
+import { SetValuePartialType } from '@/models/player';
 
 interface QualityListProps {
     qualities: any[];
     hls: any
     value: number
-    setValue: (value: number) => void
+    setValue: SetValuePartialType
 }
 
 const QualityList: React.FC<QualityListProps> = ({ 
@@ -23,7 +24,9 @@ const QualityList: React.FC<QualityListProps> = ({
     const handleQualityChange = (levelIndex: number) => {
         if (hls.current) {
             hls.current.currentLevel = levelIndex;
-            setValue(levelIndex);
+            setValue({
+                quality: levelIndex
+            });
         }
     };
 

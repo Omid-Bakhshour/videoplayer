@@ -21,7 +21,7 @@ export type PlayerOptionType = {
 
 export type ControlPropsType = {
     value: PlayerOptionType
-    setValue: Dispatch<SetStateAction<any>>
+    setValue: SetValuePartialType
 } & VideoRefType
   
 
