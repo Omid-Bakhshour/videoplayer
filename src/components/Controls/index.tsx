@@ -28,7 +28,6 @@ function Controls({ videoRef, hls, ...props }: Props) {
             ...prev,
             ...object
         }))
-
     }
 
     return (
@@ -50,7 +49,6 @@ function Controls({ videoRef, hls, ...props }: Props) {
                         videoRef={videoRef}
                         value={playerOption.isPlaying || false}
                         setValue={onSetOptionsChangeHandler}
-
                     />
                     {/* volume */}
                     <Volume 
