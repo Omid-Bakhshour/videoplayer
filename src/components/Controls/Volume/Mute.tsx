@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import React, { useEffect, Dispatch } from 'react';
 import { VideoRefType, VolumeStateType } from '@/models/player';
 import MuteIcon from '@/icons/volume_mute_fill.svg';
 import VolumeIcon from '@/icons/volume_fill.svg';

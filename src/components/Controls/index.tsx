@@ -47,7 +47,7 @@ function Controls({ videoRef }: Props) {
                 {/* right buttons */}
                 <div className='flex items-center gap-2 md:gap-4' >
                     {/* select speed */}
-                    <PlaySpeed/>
+                    <PlaySpeed videoRef={videoRef} />
                     {/* captions list */}
                     {/* quality select list */}
                     {/* mini player */}
