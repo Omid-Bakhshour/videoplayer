@@ -10,7 +10,7 @@ function Volume({
 }: ControlPropsType) {
   const initialVolume = {
     isMuted: value.isMuted,
-    volume: value?.volume || 1
+    volume: value?.volume
   }
 
   useEffect(() => {
@@ -18,6 +18,14 @@ function Volume({
       const savedMutedState = localStorage.getItem('isMuted');
       const savedVolume = localStorage.getItem('volume');
       const isMuted = savedMutedState ? JSON.parse(savedMutedState) : false
+
+      console.log(isMuted)
+      console.log(savedVolume)
+      console.log(isMuted == true ? 0 : savedVolume ? JSON.parse(savedVolume) : 1)
+      console.log({
+        isMuted: isMuted ,
+        volume: isMuted == true ? 0 : savedVolume ? JSON.parse(savedVolume) : 1
+      })
 
       setValue({
         isMuted: isMuted ,
