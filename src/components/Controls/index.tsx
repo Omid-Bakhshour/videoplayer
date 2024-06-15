@@ -9,6 +9,7 @@ import Hls from 'hls.js';
 import usePlayer from '@/hooks/usePlayer';
 import { initialPlayerOption } from '@/constants/controls';
 import { PlayerOptionsObjectType } from '@/models/player';
+import TheatreMode from './TheatreMode';
 
 type Props = {
     videoRef: React.RefObject<HTMLVideoElement>;
@@ -82,6 +83,11 @@ function Controls({ videoRef, hls, ...props }: Props) {
                     />
                     {/* mini player */}
                     {/* theather mode */}
+                    <TheatreMode
+                        videoRef={videoRef}
+                        value={playerOption?.theatreMode || false}
+                        setValue={onSetOptionsChangeHandler}
+                    />
                     {/* fullscreen */}
                 </div>
             </div>

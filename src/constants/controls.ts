@@ -8,6 +8,7 @@ export const initialPlayerOption = {
     isMuted: false,
     volume: 0,
     playbackRate: 1,
+    theatreMode: false
 }
 
 export const PLAY_BACK_RATE_LIST = [

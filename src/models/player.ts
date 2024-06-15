@@ -17,6 +17,7 @@ export type PlayerOptionType = {
     isMuted: boolean
     volume: number
     playbackRate: number
+    theatreMode: boolean
 }
 
 export type ControlPropsType = {
