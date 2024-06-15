@@ -11,6 +11,7 @@ import { initialPlayerOption } from '@/constants/controls';
 import { PlayerOptionsObjectType } from '@/models/player';
 import TheatreMode from './TheatreMode';
 import FullScreenMode from './FullScreenMode';
+import Captions from './Captions';
 
 type Props = {
     videoRef: React.RefObject<HTMLVideoElement>;
@@ -33,7 +34,7 @@ function Controls({ videoRef, hls, ...props }: Props) {
     }
 
     return (
-        <div className='absolute z-[1] bottom-0 left-0 right-1 w-full flex flex-col gap-4 p-4' >
+        <div className='w-full flex flex-col gap-4 p-4' >
             {/* timeSlider */}
             <div className='w-full relatice' >
                 <TimeSlider
@@ -69,6 +70,9 @@ function Controls({ videoRef, hls, ...props }: Props) {
                 {/* right buttons */}
                 <div className='flex items-center gap-2 md:gap-4' >
                     {/* captions list */}
+                    <Captions
+                        videoRef={videoRef}
+                    />
                     {/* play back rate */}
                     <PlayBackRate 
                         videoRef={videoRef}

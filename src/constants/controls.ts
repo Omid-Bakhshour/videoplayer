@@ -46,3 +46,20 @@ export const PLAY_BACK_RATE_LIST = [
         value: 2
     },
 ]
+
+export const textTracks = [
+    {
+      src: 'https://files.vidstack.io/sprite-fight/subs/spanish.vtt',
+      label: 'Spanish',
+      language: 'es-ES',
+      kind: 'subtitles',
+      default: false
+    },
+    {
+        src: 'https://files.vidstack.io/sprite-fight/subs/english.vtt',
+        label: 'English',
+        language: 'en-US',
+        kind: 'subtitles',
+        default: false,
+    },
+  ] as const;

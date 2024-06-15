@@ -44,3 +44,17 @@ body {
   @apply !h-full
 }
 
+.player-container video::cue {
+  visibility: hidden !important;
+
+}
+
+
+.cue-container {
+  @apply flex text-white text-[16px] md:text-[18px] lg:text-[20px] h-auto w-full justify-center
+
+}
+
+.custom-cue {
+  @apply bg-transparent block py-2.5 px-2
+}
