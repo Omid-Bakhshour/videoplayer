@@ -1,6 +1,6 @@
 import React from 'react'
 import TvIcon from '@/icons/tv_1_line.svg'
-import { SetValuePartialType, VideoRefType } from '@/models/player'
+import { SetValuePartialType } from '@/models/player'
 
 type Props = {
     value: boolean,
