@@ -5,13 +5,12 @@ import { SetValuePartialType, VideoRefType } from '@/models/player'
 type Props = {
     value: boolean,
     setValue: SetValuePartialType
-} & VideoRefType
+} 
 
 
 function TheatreMode({
     value,
     setValue,
-    videoRef,
 }: Props) {
     const onClickHandler = () => {
         const toggleValue = !value
@@ -19,11 +18,14 @@ function TheatreMode({
             theatreMode: toggleValue
         })
 
-        if (videoRef.current) {
+        const videoElement = document.querySelector('.player-container');
+
+
+        if (videoElement) {
             if (toggleValue) {
-                videoRef.current.classList.add('theatre');
+                videoElement.classList.add('theatre');
             } else {
-                videoRef.current.classList.remove('theatre');
+                videoElement.classList.remove('theatre');
             }
         }
     }

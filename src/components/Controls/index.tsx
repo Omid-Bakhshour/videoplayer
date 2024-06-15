@@ -32,7 +32,7 @@ function Controls({ videoRef, hls, ...props }: Props) {
     }
 
     return (
-        <div className='absolute z-[1] bottom-0 left-0 right-0 w-full flex flex-col gap-4 p-4' >
+        <div className='absolute z-[1] bottom-0 left-0 right-1 w-full flex flex-col gap-4 p-4' >
             {/* timeSlider */}
             <div className='w-full relatice' >
                 <TimeSlider
@@ -84,7 +84,6 @@ function Controls({ videoRef, hls, ...props }: Props) {
                     {/* mini player */}
                     {/* theather mode */}
                     <TheatreMode
-                        videoRef={videoRef}
                         value={playerOption?.theatreMode || false}
                         setValue={onSetOptionsChangeHandler}
                     />

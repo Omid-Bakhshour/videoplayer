@@ -25,3 +25,12 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+
+.player-container.theatre {
+  @apply !w-full lg:!w-full
+}
+
+.player-container.theatre video {
+  @apply !max-h-[800px]
+}
