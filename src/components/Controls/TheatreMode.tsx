@@ -13,16 +13,24 @@ function TheatreMode({
     setValue,
     videoRef,
 }: Props) {
-    const onCLickHandler = () => {
+    const onClickHandler = () => {
         const toggleValue = !value
         setValue({
             theatreMode: toggleValue
         })
+
+        if (videoRef.current) {
+            if (toggleValue) {
+                videoRef.current.classList.add('theatre');
+            } else {
+                videoRef.current.classList.remove('theatre');
+            }
+        }
     }
 
     return (
         <div
-            onClick={onCLickHandler}
+            onClick={onClickHandler}
             className='cursor-pointer'
         >
             <TvIcon />
