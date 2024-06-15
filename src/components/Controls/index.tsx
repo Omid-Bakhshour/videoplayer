@@ -43,7 +43,7 @@ function Controls({ videoRef, hls, ...props }: Props) {
                 />
             </div>
             {/* buttons */}
-            <div className='w-full flex flex-row gap items-center gap-2' >
+            <div className='w-full flex flex-row gap items-center gap-2 justify-between' >
                 {/* left buttons */}
                 <div className='flex felx-row gap-2 md:gap-4 items-center' >
                     {/* play pause */}

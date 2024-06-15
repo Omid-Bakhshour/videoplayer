@@ -24,9 +24,9 @@ function FullScreenMode({
 
         if (videoElement) {
             if (toggleValue) {
-                videoElement.classList.add('fillscreen');
+                videoElement.classList.add('fullscreen');
             } else {
-                videoElement.classList.remove('fillscreen');
+                videoElement.classList.remove('fullscreen');
             }
         }
     }

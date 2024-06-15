@@ -32,5 +32,15 @@ body {
 }
 
 .player-container.theatre video {
-  @apply !max-h-[800px]
+  @apply !h-[800px]
 }
+
+
+.player-container.fullscreen {
+  @apply !w-full lg:!w-full !h-full !fixed !z-10 !left-0 !right-0 !bottom-0 !top-0
+}
+
+.player-container.fullscreen video {
+  @apply !h-full
+}
+

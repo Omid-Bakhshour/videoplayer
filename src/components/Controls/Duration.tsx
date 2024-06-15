@@ -20,7 +20,7 @@ const formatTime = (seconds: number) => {
 function Duration({ duration, currentTime }: Props) {
 
     return (
-        <span className='text-[14px] text-white flex gap-1' >
+        <span className='hidden md:flex text-[14px] text-white  gap-1' >
             {/* currenttime */}
             <span className='' >{formatTime(currentTime)}</span>
             <span className='shrink-0' >/</span>
