@@ -18,6 +18,7 @@ export type PlayerOptionType = {
     volume: number
     playbackRate: number
     theatreMode: boolean
+    fullScreen: boolean
 }
 
 export type ControlPropsType = {

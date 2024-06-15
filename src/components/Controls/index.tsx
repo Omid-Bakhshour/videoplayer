@@ -10,6 +10,7 @@ import usePlayer from '@/hooks/usePlayer';
 import { initialPlayerOption } from '@/constants/controls';
 import { PlayerOptionsObjectType } from '@/models/player';
 import TheatreMode from './TheatreMode';
+import FullScreenMode from './FullScreenMode';
 
 type Props = {
     videoRef: React.RefObject<HTMLVideoElement>;
@@ -88,6 +89,10 @@ function Controls({ videoRef, hls, ...props }: Props) {
                         setValue={onSetOptionsChangeHandler}
                     />
                     {/* fullscreen */}
+                    <FullScreenMode
+                        value={playerOption.fullScreen || false}
+                        setValue={onSetOptionsChangeHandler}
+                    />
                 </div>
             </div>
         </div>
