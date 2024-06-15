@@ -54,7 +54,7 @@ function Player() {
 
     return (
         <div className='w-full lg:w-[900px]  bg-black relative block player-container' >
-            <video ref={videoRef} className='w-full h-[500px] block'/>
+            <video ref={videoRef} className='w-full h-[500px] block object-contain'/>
             {/* controls */}
             <Controls videoRef={videoRef} hls={hls} {...options} />
         </div>
