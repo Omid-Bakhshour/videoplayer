@@ -1,38 +1,20 @@
 import React from 'react'
 import TvIcon from '@/icons/tv_1_line.svg'
 import { SetValuePartialType } from '@/models/player'
+import { toggleTheatreMode } from '@/utils/player'
 
 type Props = {
     value: boolean,
     setValue: SetValuePartialType
 } 
 
-
 function TheatreMode({
     value,
     setValue,
 }: Props) {
-    const onClickHandler = () => {
-        const toggleValue = !value
-        setValue({
-            theatreMode: toggleValue
-        })
-
-        const videoElement = document.querySelector('.player-container');
-
-
-        if (videoElement) {
-            if (toggleValue) {
-                videoElement.classList.add('theatre');
-            } else {
-                videoElement.classList.remove('theatre');
-            }
-        }
-    }
-
     return (
         <div
-            onClick={onClickHandler}
+            onClick={() => toggleTheatreMode(value, setValue)}
             className='cursor-pointer'
         >
             <TvIcon />

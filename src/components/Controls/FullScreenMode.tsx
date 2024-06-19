@@ -2,6 +2,7 @@ import React from 'react'
 import FullScreenIcon from '@/icons/fullscreen_fill.svg'
 import FullScreenExitIcon from '@/icons/fullscreen_exit_fill.svg'
 import { SetValuePartialType } from '@/models/player'
+import { toggleFullScreenMode } from '@/utils/player'
 
 type Props = {
     value: boolean,
@@ -13,27 +14,9 @@ function FullScreenMode({
     value,
     setValue,
 }: Props) {
-    const onClickHandler = () => {
-        const toggleValue = !value
-        setValue({
-            fullScreen: toggleValue
-        })
-
-        const videoElement = document.querySelector('.player-container');
-
-
-        if (videoElement) {
-            if (toggleValue) {
-                videoElement.classList.add('fullscreen');
-            } else {
-                videoElement.classList.remove('fullscreen');
-            }
-        }
-    }
-
     return (
         <div
-            onClick={onClickHandler}
+            onClick={() => toggleFullScreenMode(value, setValue)}
             className='cursor-pointer'
         >
           {
