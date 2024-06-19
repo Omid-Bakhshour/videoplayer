@@ -102,4 +102,4 @@ const usePlayer = (videoRef: React.RefObject<HTMLVideoElement>) => {
 
 }
 
-export default usePlayer
+export default usePlayer  
