@@ -1,44 +1,71 @@
 import { initialPlayerOption } from '@/constants/controls';
 import { PlayerOptionType } from '@/models/player';
+import { togglePlayPause } from '@/utils/player';
 import React, { useEffect, useState } from 'react'
 
 const usePlayer = (videoRef: React.RefObject<HTMLVideoElement>) => {
-    const [playerOption, setPlayerOption] = useState<PlayerOptionType>(initialPlayerOption)
+  const [playerOption, setPlayerOption] = useState<PlayerOptionType>(initialPlayerOption)
 
-    useEffect(() => {
-        const videoElement = videoRef.current;
-    
-        if (videoElement) {
-          const handleTimeUpdate = () => {
-            setPlayerOption(prev => ({
-              ...prev,
-              currentTime: videoElement.currentTime,
-            }));
-          };
-    
-          const handleLoadedMetadata = () => {
-            setPlayerOption(prev => ({
-              ...prev,
-              duration: videoElement.duration,
-            }));
-          };
+  useEffect(() => {
+    const videoElement = videoRef.current;
 
-          videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
-          videoElement.addEventListener('timeupdate', handleTimeUpdate);
+    if (videoElement) {
+      const handleTimeUpdate = () => {
+        setPlayerOption(prev => ({
+          ...prev,
+          currentTime: videoElement.currentTime,
+        }));
+      };
 
-          return () => {
-              videoElement.removeEventListener('timeupdate', handleTimeUpdate);
-              videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
-          };
+      const handleLoadedMetadata = () => {
+        setPlayerOption(prev => ({
+          ...prev,
+          duration: videoElement.duration,
+        }));
+      };
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (document.activeElement) {
+          const tagName = document.activeElement.tagName.toLowerCase()
+          if (tagName === "input") {
+            return
+          }
+
+          switch (e.key.toLocaleLowerCase()) {
+            case " ":
+              if (tagName === "button") {
+                return
+              }
+            case "k" :  
+              setPlayerOption(prev => ({
+                ...prev,
+                isPlaying: !prev.isPlaying
+              }))
+
+              togglePlayPause(videoRef)
+              break
+          }
         }
-      }, [videoRef]);
-
-
-      return {
-        playerOption,
-        setPlayerOption,
       }
- 
+
+      videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
+      videoElement.addEventListener('timeupdate', handleTimeUpdate);
+      document.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        videoElement.removeEventListener('timeupdate', handleTimeUpdate);
+        videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
+        document.removeEventListener('keydown', handleKeyDown);
+
+      };
+    }
+  }, [videoRef]) 
+
+  return {
+    playerOption,
+    setPlayerOption,
+  }
+
 }
 
 export default usePlayer

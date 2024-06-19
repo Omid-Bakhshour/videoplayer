@@ -31,3 +31,15 @@ export const clearCues = () => {
         cueContainer.innerHTML = '';
     }
 };
+
+
+export const togglePlayPause = (videoRef: MutableRefObject<HTMLVideoElement | null>) => {
+    const videoElement = videoRef.current;
+    if (videoElement) {
+        if (videoElement.paused || videoElement.ended) {
+            videoElement?.play();
+        } else {
+            videoElement?.pause();
+        }
+    }
+};

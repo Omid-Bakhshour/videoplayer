@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PlayIcon from '@/icons/play_fill.svg';
 import PauseIcon from '@/icons/pause_fill.svg';
 import { SetValuePartialType, VideoRefType } from '@/models/player';
+import { togglePlayPause } from '@/utils/player';
 
 type Props = {
     value: boolean,
@@ -42,19 +43,8 @@ function PlayPause({
         }
     }, [videoRef]);
 
-    const togglePlayPause = () => {
-        const videoElement = videoRef.current;
-        if (videoElement) {
-            if (videoElement.paused || videoElement.ended) {
-                videoElement?.play();
-            } else {
-                videoElement?.pause();
-            }
-        }
-    };
-
     return (
-        <div className='cursor-pointer' onClick={togglePlayPause}>
+        <div className='cursor-pointer' onClick={() => togglePlayPause(videoRef)}>
             {isPlaying ? <PauseIcon /> : <PlayIcon />}
         </div>
     );
