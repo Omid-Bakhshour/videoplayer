@@ -6,7 +6,9 @@ Features
 
 HLS Support: Stream videos using HLS for adaptive bitrate streaming.   
 Tailwind CSS: Utilizes Tailwind CSS for easy customization and responsive design.   
+
 Controls:   
+
 Play/Pause Button: Easily control video playback.   
 Time Slider: Navigate through the video timeline.   
 Mute Button: Quickly mute or unmute the video.   
