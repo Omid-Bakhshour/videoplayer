@@ -1,6 +1,6 @@
 import { initialPlayerOption } from '@/constants/controls';
 import { PlayerOptionType, PlayerOptionsObjectType } from '@/models/player';
-import { toggleFullScreenMode, toggleMute, togglePlayPause, toggleTheatreMode } from '@/utils/player';
+import { skipMedia, toggleFullScreenMode, toggleMute, togglePlayPause, toggleTheatreMode } from '@/utils/player';
 import React, { useEffect, useState } from 'react'
 
 const usePlayer = (videoRef: React.RefObject<HTMLVideoElement>) => {
@@ -68,8 +68,18 @@ const usePlayer = (videoRef: React.RefObject<HTMLVideoElement>) => {
             break
 
           case "t":
-              toggleTheatreMode(playerOption.theatreMode, onSetOptionsChangeHandler)
-              break  
+            toggleTheatreMode(playerOption.theatreMode, onSetOptionsChangeHandler)
+            break
+
+          case "j":
+          case "arrowleft":
+            skipMedia(videoRef, -5)
+            break
+
+          case "l":
+          case "arrowright":
+            skipMedia(videoRef, 5)
+            break
         }
       }
     }

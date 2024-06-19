@@ -101,3 +101,12 @@ export const toggleTheatreMode = (value: boolean, setValue: SetValuePartialType)
         }
     }
 }
+
+export const skipMedia = (videoRef: MutableRefObject<HTMLVideoElement | null>, skipDuration: number) => {
+    const videoElement = videoRef.current
+    if(videoElement) {
+
+        videoElement.currentTime += skipDuration
+    }
+
+}
