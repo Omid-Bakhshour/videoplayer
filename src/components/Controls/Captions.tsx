@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useEffect, useState } from 'react';
 import { VideoRefType } from '@/models/player';
 import CaptionIcon from "@/icons/message_1_line.svg";
@@ -28,6 +30,12 @@ const Captions: React.FC<VideoRefType> = ({ videoRef }) => {
     useEffect(() => {
         handleSubtitleTrackChange(currentTrack ?? -1);
     }, [subtitleTracks]);
+
+
+    const isSubtitleExist = subtitleTracks && Array.isArray(Array.from(subtitleTracks)) && Array.from(subtitleTracks).length > 0
+    if(!isSubtitleExist) {
+        return <></>
+    }
 
     return (
         <div className='dropdown dropdown-end lg:dropdown-top'>
