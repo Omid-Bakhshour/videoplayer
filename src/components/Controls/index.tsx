@@ -22,16 +22,10 @@ function Controls({ videoRef, hls, ...props }: Props) {
     const {
         playerOption,
         setPlayerOption,
+        onSetOptionsChangeHandler
     } = usePlayer(videoRef)
 
     const qualities = (props as any).qualities ? (props as any).qualities : [];
-
-    const onSetOptionsChangeHandler = (object: PlayerOptionsObjectType) => {
-        setPlayerOption(prev => ({
-            ...prev,
-            ...object
-        }))
-    }
 
     return (
         <div className='w-full flex flex-col gap-4 p-4' >

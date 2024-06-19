@@ -1,10 +1,17 @@
 import { initialPlayerOption } from '@/constants/controls';
-import { PlayerOptionType } from '@/models/player';
-import { togglePlayPause } from '@/utils/player';
+import { PlayerOptionType, PlayerOptionsObjectType } from '@/models/player';
+import { toggleMute, togglePlayPause } from '@/utils/player';
 import React, { useEffect, useState } from 'react'
 
 const usePlayer = (videoRef: React.RefObject<HTMLVideoElement>) => {
   const [playerOption, setPlayerOption] = useState<PlayerOptionType>(initialPlayerOption)
+
+  const onSetOptionsChangeHandler = (object: PlayerOptionsObjectType) => {
+    setPlayerOption(prev => ({
+      ...prev,
+      ...object
+    }))
+  }
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -36,9 +43,13 @@ const usePlayer = (videoRef: React.RefObject<HTMLVideoElement>) => {
               if (tagName === "button") {
                 return
               }
-            case "k" :  
+            case "k":
               togglePlayPause(videoRef)
               break
+
+            case "m":
+                toggleMute(videoRef, onSetOptionsChangeHandler)
+                break  
           }
         }
       }
@@ -54,11 +65,12 @@ const usePlayer = (videoRef: React.RefObject<HTMLVideoElement>) => {
 
       };
     }
-  }, [videoRef]) 
+  }, [videoRef])
 
   return {
     playerOption,
     setPlayerOption,
+    onSetOptionsChangeHandler
   }
 
 }
