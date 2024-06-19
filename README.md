@@ -1,10 +1,10 @@
 Custom Video Player
 This repository contains a customizable and feature-rich video player that supports HLS (HTTP Live Streaming). The player is built using Tailwind CSS and hls.js, offering a seamless and responsive video playback experience.
 
-Features
-HLS Support: Stream videos using HLS for adaptive bitrate streaming.
-Tailwind CSS: Utilizes Tailwind CSS for easy customization and responsive design.
-Controls:
+Features   
+HLS Support: Stream videos using HLS for adaptive bitrate streaming.   
+Tailwind CSS: Utilizes Tailwind CSS for easy customization and responsive design.   
+Controls:   
 Play/Pause Button: Easily control video playback.
 Time Slider: Navigate through the video timeline.
 Mute Button: Quickly mute or unmute the video.
