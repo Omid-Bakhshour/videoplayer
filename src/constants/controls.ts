@@ -12,6 +12,9 @@ export const initialPlayerOption = {
     fullScreen: false,
 }
 
+export const  CUE_CONTAINER_ID = "cueContainer"
+export const CUSTOM_CUE = "custom-cue"
+
 export const PLAY_BACK_RATE_LIST = [
     {
         label: "0.25x",

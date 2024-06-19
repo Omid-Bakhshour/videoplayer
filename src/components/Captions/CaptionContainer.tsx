@@ -1,42 +1,40 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { VideoRefType } from '@/models/player';
+import { renderCues } from '@/utils/player';
+import { CUE_CONTAINER_ID } from '@/constants/controls';
 
-const CaptionContainer: React.FC< VideoRefType > = ({ videoRef }) => {
+const CaptionContainer: React.FC<VideoRefType> = ({ videoRef }) => {
+
+    const renderCueHandler = () => {
+        renderCues(videoRef)
+    }
 
     useEffect(() => {
         if (videoRef.current) {
-            const track = videoRef.current.textTracks[1];
-            track.mode = 'showing';
+            const tracks = videoRef.current.textTracks;
 
-            const cueRenderer = () => {
-                const activeCues = track.activeCues;
-                const cueContainer = document.getElementById('cueContainer');
-                if (cueContainer) {
-                    cueContainer.innerHTML = '';
-                    if(activeCues) {
-                        Array.from(activeCues).map((cue) => {
-                            const vttCue = cue as VTTCue;
-                            const cueElement = document.createElement('div');
-                            cueElement.className = 'custom-cue';
-                            cueElement.innerText = vttCue.text;
-                            cueContainer.appendChild(cueElement);
-                        });
-                    }
-                }
-            };
-
-            track.addEventListener('cuechange', cueRenderer);
+            for (let i = 0; i < tracks.length; i++) {
+                tracks[i].addEventListener('cuechange', renderCueHandler);
+            }
 
             return () => {
-                track.removeEventListener('cuechange', cueRenderer);
+                if (videoRef.current) {
+                    for (let i = 0; i < tracks.length; i++) {
+                        tracks[i].removeEventListener('cuechange', renderCueHandler);
+                    }
+                }
             };
         }
     }, [videoRef]);
 
+    useEffect(() => {
+        renderCues(videoRef);
+    }, []);
+
     return (
         <div className='w-full flex flex-col flex-1 justify-center align-bottom'>
             <div className='flex-1' />
-            <div id="cueContainer" className="cue-container"></div>
+            <div id={CUE_CONTAINER_ID} className="cue-container"></div>
         </div>
     );
 };
