@@ -2,6 +2,7 @@ import React, { useEffect, Dispatch } from 'react';
 import { VideoRefType, VolumeStateType } from '@/models/player';
 import MuteIcon from '@/icons/volume_mute_fill.svg';
 import VolumeIcon from '@/icons/volume_fill.svg';
+import { toggleMute } from '@/utils/player';
 
 type PropsType = {
   value: VolumeStateType
@@ -21,24 +22,8 @@ const Mute: React.FC<PropsType> = ({
     }
   }, [videoRef, value]);
 
-  const toggleMute = () => {
-    const videoElement = videoRef.current;
-    if (videoElement) {
-      const savedVolume = localStorage.getItem('volume');
-      const newMutedState = !videoElement.muted;
-      videoElement.muted = newMutedState;
-
-      setValue({
-        isMuted: newMutedState,
-        volume: newMutedState === true ? 0 : savedVolume ? JSON.parse(savedVolume) : 0
-      });
-      
-      localStorage?.setItem('isMuted', JSON.stringify(newMutedState));
-    }
-  };
-
   return (
-    <div className='cursor-pointer' onClick={toggleMute}>
+    <div className='cursor-pointer' onClick={() => toggleMute(videoRef, setValue)}>
       {value.isMuted ? <MuteIcon /> : <VolumeIcon />}
     </div>
   );

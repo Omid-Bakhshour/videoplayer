@@ -1,5 +1,6 @@
 import { CUE_CONTAINER_ID, CUSTOM_CUE } from '@/constants/controls';
-import { MutableRefObject } from 'react';
+import { PlayerOptionType, SetValuePartialType, VolumeStateType } from '@/models/player';
+import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 
 export const renderCues = (
     videoRef: MutableRefObject<HTMLVideoElement | null>
@@ -43,3 +44,23 @@ export const togglePlayPause = (videoRef: MutableRefObject<HTMLVideoElement | nu
         }
     }
 };
+
+
+export const toggleMute = (
+    videoRef: MutableRefObject<HTMLVideoElement | null>,
+    setValue: Dispatch<VolumeStateType>
+) => {
+    const videoElement = videoRef.current;
+    if (videoElement) {
+      const savedVolume = localStorage.getItem('volume');
+      const newMutedState = !videoElement.muted;
+      videoElement.muted = newMutedState;
+
+      setValue({
+        isMuted: newMutedState,
+        volume: newMutedState === true ? 0 : savedVolume ? JSON.parse(savedVolume) : 0
+      });
+      
+      localStorage?.setItem('isMuted', JSON.stringify(newMutedState));
+    }
+  };

@@ -19,14 +19,6 @@ function Volume({
       const savedVolume = localStorage.getItem('volume');
       const isMuted = savedMutedState ? JSON.parse(savedMutedState) : false
 
-      console.log(isMuted)
-      console.log(savedVolume)
-      console.log(isMuted == true ? 0 : savedVolume ? JSON.parse(savedVolume) : 1)
-      console.log({
-        isMuted: isMuted ,
-        volume: isMuted == true ? 0 : savedVolume ? JSON.parse(savedVolume) : 1
-      })
-
       setValue({
         isMuted: isMuted ,
         volume: isMuted == true ? 0 : savedVolume ? JSON.parse(savedVolume) : 1

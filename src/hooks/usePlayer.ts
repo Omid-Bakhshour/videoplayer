@@ -37,11 +37,6 @@ const usePlayer = (videoRef: React.RefObject<HTMLVideoElement>) => {
                 return
               }
             case "k" :  
-              setPlayerOption(prev => ({
-                ...prev,
-                isPlaying: !prev.isPlaying
-              }))
-
               togglePlayPause(videoRef)
               break
           }
