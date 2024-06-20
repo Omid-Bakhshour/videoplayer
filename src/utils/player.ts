@@ -92,7 +92,6 @@ export const toggleTheatreMode = (value: boolean, setValue: SetValuePartialType)
 
     const videoElement = document.querySelector('.player-container');
 
-
     if (videoElement) {
         if (toggleValue) {
             videoElement.classList.add('theatre');
@@ -108,5 +107,21 @@ export const skipMedia = (videoRef: MutableRefObject<HTMLVideoElement | null>, s
 
         videoElement.currentTime += skipDuration
     }
-
 }
+
+
+export const adjustVolume = (videoRef: MutableRefObject<HTMLVideoElement | null>, setValue: SetValuePartialType, increment: number) => {
+    if (videoRef.current) {
+        let newVolume = videoRef.current.volume + increment / 100;
+        newVolume = Math.min(Math.max(newVolume, 0), 1);
+        videoRef.current.volume = newVolume;
+        const isMuted = newVolume === 0;
+
+        setValue({
+            volume: newVolume,
+            isMuted: isMuted
+        });
+        localStorage.setItem('volume', JSON.stringify(newVolume));
+        localStorage.setItem('isMuted', JSON.stringify(isMuted));
+    }
+};
