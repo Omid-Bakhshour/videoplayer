@@ -12,6 +12,7 @@ import { PlayerOptionsObjectType } from '@/models/player';
 import TheatreMode from './TheatreMode';
 import FullScreenMode from './FullScreenMode';
 import Captions from './Captions';
+import AudioTracks from './AudioTracks';
 
 type Props = {
     videoRef: React.RefObject<HTMLVideoElement>;
@@ -42,13 +43,13 @@ function Controls({ videoRef, hls, ...props }: Props) {
                 {/* left buttons */}
                 <div className='flex felx-row gap-2 md:gap-4 items-center' >
                     {/* play pause */}
-                    <PlayPause 
+                    <PlayPause
                         videoRef={videoRef}
                         value={playerOption.isPlaying || false}
                         setValue={onSetOptionsChangeHandler}
                     />
                     {/* volume */}
-                    <Volume 
+                    <Volume
                         videoRef={videoRef}
                         value={playerOption}
                         setValue={onSetOptionsChangeHandler}
@@ -64,11 +65,16 @@ function Controls({ videoRef, hls, ...props }: Props) {
                 {/* right buttons */}
                 <div className='flex items-center gap-2 md:gap-4' >
                     {/* captions list */}
+                    <AudioTracks
+                        videoRef={videoRef}
+                        hls={hls.current}
+                    />
+                    {/* captions list */}
                     <Captions
                         videoRef={videoRef}
                     />
                     {/* play back rate */}
-                    <PlayBackRate 
+                    <PlayBackRate
                         videoRef={videoRef}
                         value={playerOption.playbackRate || 1}
                         setValue={onSetOptionsChangeHandler}
