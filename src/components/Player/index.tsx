@@ -7,6 +7,8 @@ import CaptionContainer from '../Captions/CaptionContainer';
 import { textTracks } from '@/constants/controls';
 const VIDEO_HLS_SRC = "https://files.vidstack.io/sprite-fight/hls/stream.m3u8";
 const VIDEO_MP4_SRC = "https://files.vidstack.io/sprite-fight/720p.mp4"
+const VIDEO_HLS_SRC_2 = "video/media/hls/f12a599ffae548b582ef02331f73b99a/master.m3u8";
+
 
 const isHlsSource = (src: string) => {
     return src.endsWith(".m3u8");
@@ -19,9 +21,9 @@ function Player() {
 
     useEffect(() => {
         if (videoRef.current) {
-            if (Hls.isSupported() && isHlsSource(VIDEO_HLS_SRC)) {
+            if (Hls.isSupported() && isHlsSource(VIDEO_HLS_SRC_2)) {
                 hls.current = new Hls();
-                hls.current.loadSource(VIDEO_HLS_SRC);
+                hls.current.loadSource(VIDEO_HLS_SRC_2);
                 hls.current.attachMedia(videoRef.current);
                 hls.current.on(Hls.Events.MANIFEST_PARSED, () => {
                     setQualities(hls.current?.levels)
