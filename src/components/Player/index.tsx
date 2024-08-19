@@ -65,7 +65,7 @@ function Player() {
                 crossOrigin=''
 
             >
-                {/* {
+                {
                    isSubtitleValid && textTracks.map((textTrack) => {
                         return (
                             <track
@@ -78,7 +78,7 @@ function Player() {
                             />
                         )
                     })
-                } */}
+                }
             </video>
             {/* controls */}
             <div className='absolute top-0 bottom-0 left-0 right-0 z-[1] w-full flex flex-col justify-between' >
