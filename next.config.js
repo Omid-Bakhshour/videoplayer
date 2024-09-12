@@ -4,7 +4,7 @@ const baseRewrites = [
 
     {
       source: '/video/:slug*',
-      destination: 'https://media.test.runbazaar.com/:slug*',
+      destination: 'https://media.runbazaar.com/:slug*',
     }
   ];
 const nextConfig = {
